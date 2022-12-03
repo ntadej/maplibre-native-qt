@@ -1,28 +1,3 @@
-cmake_minimum_required(VERSION 3.16)
-
-file(READ "VERSION.txt" MBGL_QML_VERSION)
-string(REGEX REPLACE "\n" "" MBGL_QML_VERSION "${MBGL_QML_VERSION}") # get
-
-project(MapLibreGLQmlPlugin
-    VERSION "${MBGL_QML_VERSION}"
-    DESCRIPTION "MapLibre GL Qt Location QML Plugin"
-    LANGUAGES CXX
-)
-
-# Make sure we use the fixed BASE argument of qt_add_resource.
-set(QT_USE_FIXED_QT_ADD_RESOURCE_BASE TRUE)
-
-find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core) # special case
-# WebAssembly not supported
-if(WASM)
-    message(NOTICE "Skipping the build as the condition \"NOT WASM\" is not met.")
-    return()
-endif()
-
-qt_prepare_standalone_project()
-
-find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS Location Positioning Network OpenGL) # special case
-
 # Core QMapLibreGL definitions
 set(MBGL_WITH_QT ON CACHE BOOL "Build MapLibre GL Qt version" FORCE)
 set(MBGL_QT_LIBRARY_ONLY ON CACHE BOOL "Build only the library part of QMapLibreGL" FORCE)
